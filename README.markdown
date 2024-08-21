@@ -79,11 +79,8 @@ sudo certbot --apache
 
 ## Conclusão
 
-Seguindo esses passos, o Web2py estará instalado e configurado no seu servidor Ubuntu 20.04 LTS, com suporte para HTTPS usando um certificado SSL.
-
+Essa é uma versão ajustada de uso pessoal do framework desenvolvido pelo autor  [Massimo Di Pierro](https://github.com/web2py/web2py/)
 Caso tenha alguma dúvida ou problema durante o processo de instalação, consulte a [documentação oficial do Web2py](http://www.web2py.com/book) ou procure ajuda na comunidade.
 
 ---
 
-**Autor:** [Seu Nome]  
-**Licença:** Este projeto está licenciado sob a [MIT License](LICENSE).
