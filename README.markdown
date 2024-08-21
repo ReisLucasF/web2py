@@ -1,96 +1,89 @@
-## Readme
 
-web2py is a free open source full-stack framework for rapid development of fast, scalable, secure and portable database-driven web-based applications.
+# Configuração do Web2py no Ubuntu 20.04 LTS
 
-It is written and programmable in Python. LGPLv3 License
+Este guia fornece instruções detalhadas para configurar o Web2py em um servidor Ubuntu 20.04 LTS. Seguindo esses passos, você instalará e configurará o Web2py, além de configurar um certificado SSL para garantir a segurança do servidor.
 
-Learn more at http://web2py.com
+## Pré-requisitos
 
-## Google App Engine deployment
+- **Sistema Operacional:** Ubuntu 20.04 LTS
+- **Acesso Root ou Sudo:** As operações requerem privilégios de superusuário
 
-    cp examples/app.yaml ./
-    cp handlers/gaehandler.py ./
+## Passo 1: Atualizar e Atualizar Pacotes do Sistema
 
-Then edit ./app.yaml and replace "yourappname" with yourappname.
+Primeiro, vamos garantir que todos os pacotes do sistema estejam atualizados.
 
-## Important reminder about this GIT repo
+```bash
+sudo apt update
+sudo apt upgrade -y
+```
 
-An important part of web2py is the Database Abstraction Layer (DAL). In early 2015 this was decoupled into a separate code-base ([PyDAL](https://github.com/web2py/pydal)). In terms of git, it is a sub-module of the main repository.
+## Passo 2: Baixar o Script de Instalação do Web2py
 
-The use of a sub-module requires a one-time use of the --recursive flag for git clone if you are cloning web2py from scratch.
+Baixe o script necessário para configurar o Web2py no Ubuntu 20.04.
 
-    git clone --recursive https://github.com/web2py/web2py.git
+```bash
+sudo wget https://raw.githubusercontent.com/ReisLucasF/web2py/main/scripts/setup-web2py-ubuntu-focal.sh
+```
 
-If you have an existing repository, the commands below need to be executed at least once:
+## Passo 3: Tornar o Script Executável
 
-    git submodule update --init --recursive
+Após o download do script, é necessário conceder permissões de execução.
 
-PyDAL uses a separate stable release cycle to the rest of web2py. PyDAL releases will use a date-naming scheme similar to Ubuntu. Issues related to PyDAL should be reported to its separate repository.
+```bash
+sudo chmod +x setup-web2py-ubuntu-focal.sh
+```
 
+## Passo 4: Executar o Script de Instalação
 
-## Documentation (readthedocs.org)
+Agora, execute o script para instalar e configurar o Web2py.
 
-[![Docs Status](https://readthedocs.org/projects/web2py/badge/?version=latest&style=flat-square)](http://web2py.rtfd.org/)
+```bash
+sudo ./setup-web2py-ubuntu-focal.sh
+```
 
-## Tests
+## Passo 5: Configuração do Certificado SSL
 
-[![Build Status](https://img.shields.io/travis/web2py/web2py/master.svg?style=flat-square&label=Travis-CI)](https://app.travis-ci.com/github/web2py/web2py)
-[![MS Build Status](https://img.shields.io/appveyor/ci/web2py/web2py/master.svg?style=flat-square&label=Appveyor-CI)](https://ci.appveyor.com/project/web2py/web2py)
-[![Coverage Status](https://img.shields.io/codecov/c/github/web2py/web2py.svg?style=flat-square)](https://codecov.io/github/web2py/web2py)
+Para garantir que o site seja acessível de forma segura, instale o Certbot e configure um certificado SSL.
 
+### Instalar o Certbot
 
-## Installation Instructions
+```bash
+sudo apt install certbot python3-certbot-apache
+```
 
-To start web2py there is NO NEED to install it. Just unzip and do:
+### Configurar o Firewall para SSL
 
-    python web2py.py
+Abra as portas 80 (HTTP) e 443 (HTTPS) no firewall.
 
-That's it!!!
+```bash
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+sudo ufw reload
+```
 
-## web2py directory structure
+### Reiniciar o Apache
 
-    project/
-        README
-        LICENSE
-        VERSION                    > this web2py version
-        web2py.py                  > the startup script
-        anyserver.py               > to run with third party servers
-        ...                        > other handlers and example files
-        gluon/                     > the core libraries
-            packages/              > web2py submodules
-              dal/
-            contrib/               > third party libraries
-            tests/                 > unittests
-        applications/              > are the apps
-            admin/                 > web based IDE
-                ...
-            examples/              > examples, docs, links
-                ...
-            welcome/               > the scaffolding app (they all copy it)
-                ABOUT
-                LICENSE
-                models/
-                views/
-                controllers/
-                sessions/
-                errors/
-                cache/
-                static/
-                uploads/
-                modules/
-                cron/
-                tests/
-            ...                    > your own apps
-        examples/                  > example config files, mv .. and customize
-        extras/                    > other files which are required for building web2py
-        scripts/                   > utility and installation scripts
-        handlers/
-            wsgihandler.py         > handler to connect to WSGI
-            ...                    > handlers for Fast-CGI, SCGI, Gevent, etc
-        site-packages/             > additional optional modules
-        logs/                      > log files will go in there
-        deposit/                   > a place where web2py stores apps temporarily
+Após ajustar as regras do firewall, reinicie o Apache para aplicar as mudanças.
 
-## Issues?
+```bash
+sudo systemctl restart apache2
+```
 
-Report issues at https://github.com/web2py/web2py/issues
+### Executar o Certbot para Configuração SSL
+
+Por fim, execute o Certbot para obter e configurar o certificado SSL.
+
+```bash
+sudo certbot --apache
+```
+
+## Conclusão
+
+Seguindo esses passos, o Web2py estará instalado e configurado no seu servidor Ubuntu 20.04 LTS, com suporte para HTTPS usando um certificado SSL.
+
+Caso tenha alguma dúvida ou problema durante o processo de instalação, consulte a [documentação oficial do Web2py](http://www.web2py.com/book) ou procure ajuda na comunidade.
+
+---
+
+**Autor:** [Seu Nome]  
+**Licença:** Este projeto está licenciado sob a [MIT License](LICENSE).
