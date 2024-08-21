@@ -29,7 +29,8 @@ elif request.env.trusted_lan_prefix and \
      request.client.startswith(request.env.trusted_lan_prefix):
     request.is_local = True
 elif not request.is_local and not DEMO_MODE:
-    raise HTTP(200,'Admin is disabled because insecure channel')
+    raise HTTP(200, T('Admin is disabled because insecure channel'))
+
 
 try:
     _config = {}
