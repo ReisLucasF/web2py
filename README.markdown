@@ -25,6 +25,12 @@ Baixe o script necessário para configurar o Web2py no Ubuntu 20.04.
 sudo wget https://raw.githubusercontent.com/ReisLucasF/web2py/main/scripts/setup-web2py-ubuntu-focal.sh
 ```
 
+Ou 
+
+```bash
+sudo wget https://raw.githubusercontent.com/web2py/web2py/master/scripts/setup-web2py-ubuntu-focal.sh
+```
+
 ## Passo 3: Tornar o Script Executável
 
 Após o download do script, é necessário conceder permissões de execução.
